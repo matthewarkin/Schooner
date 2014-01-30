@@ -2,21 +2,21 @@
  * User.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs		:: http://sailsjs.org/#!documentation/models
+ * @docs    :: http://sailsjs.org/#!documentation/models
  */
 module.exports = {
   attributes: {
 
-  	firstName: {
-  		type: 'string'
-  	},
-  	lastName: {
-  		type: 'string'
-  	},
-  	email:{
-  		type: 'email',
-  		required: true
-  	},
+    firstName: {
+      type: 'string'
+    },
+    lastName: {
+      type: 'string'
+    },
+    email:{
+      type: 'email',
+      required: true
+    },
     username: {
       type: 'string',
       required: true,
@@ -27,8 +27,8 @@ module.exports = {
       required: true
     },
     activated: {
-    	type: 'boolean',
-    	defaultsTo: false
+      type: 'boolean',
+      defaultsTo: false
     },
     activationToken: {
       type: 'string'
