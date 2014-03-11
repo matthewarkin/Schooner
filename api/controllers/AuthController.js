@@ -1,11 +1,16 @@
 /**
- * AuthController.js 
+ * AuthController.js
  *
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 var passport = require('passport');
 module.exports = {
+
+  index: function(req, res){
+    res.view();
+  },
+
   login: function(req, res){
     passport.authenticate('local', function(err, user, info){
       if ((err) || (!user)) res.send(err);

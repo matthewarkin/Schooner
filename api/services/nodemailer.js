@@ -10,12 +10,13 @@ module.exports = {
 
     /** sets up the modemailer smtp transport */
     var transport = nodemailer.createTransport("SMTP", {
-      host: sails.config.nodemailer.host,
-      secureConnection: sails.config.nodemailer.usessl, // use SSL
-      port: sails.config.nodemailer.port, // port for secure SMTP
+      service: "Mandrill",
+      host: "smtp.mandrillapp.com",
+      secureConnection: false, // use SSL
+      port: 587, // port for secure SMTP
       auth: {
-          user: sails.config.nodemailer.user, 
-          pass: sails.config.nodemailer.pass 
+          user: "jdcauley",
+          pass: "s5B6xbLv9EnpZjo0L3tP9g"
       }
     });
 
@@ -30,9 +31,9 @@ module.exports = {
 
     var mailOptions = {
       from: email.name + '<' + from + '>',
-      to: email.to, 
+      to: email.to,
       subject: subject,
-      html: email.messageHtml      
+      html: email.messageHtml
     }
 
     /** Actually sends the email */
