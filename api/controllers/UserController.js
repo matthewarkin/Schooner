@@ -1,18 +1,25 @@
 /**
- * UserController.js 
+ * UserController.js
  *
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
 module.exports = {
-  
+
+  index: function(req, res){
+     console.log(req.user);
+        res.view({
+            user: req.user
+        });
+  },
+
   create: function(req, res){
     var params = req.params.all();
     User.create(params, function(err, user){
       if (err){ res.send(500, err); }else{
         if(sails.config.user.requireUserActivation){
-          var emailTemplate = res.render('email/email.ejs', {user: user}, function(err, list){  
+          var emailTemplate = res.render('email/email.ejs', {user: user}, function(err, list){
 
             nodemailer.send({
               name:       user.firstName + ' ' + user.lastName,
@@ -41,7 +48,7 @@ module.exports = {
     var params = req.params.all();
 
     sails.log.debug('activation action');
-    
+
     //Activate the user that was requested.
     User.update({
       id: params.id,

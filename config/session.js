@@ -15,7 +15,7 @@ module.exports.session = {
   // Session secret is automatically generated when your new app is created
   // Replace at your own risk in production-- you will invalidate the cookies of your users,
   // forcing them to log in again. 
-  secret: '35bb8f7fcff373eb529df4b4e25964a3',
+  secret: 'baa2d1eb7bb9634a16a8cbd4b4c86df3',
 
 
   // Set the session cookie expire time
@@ -34,12 +34,12 @@ module.exports.session = {
   // on localhost is expected.
   // Read more about options at: https://github.com/visionmedia/connect-redis
   //
-  host: 'localhost',
-  port: 6379,
-  ttl: 60,
-  db: 0,
-  pass: '',
-  prefix: 'sess:'
+  // host: 'localhost',
+  // port: 6379,
+  // ttl: <redis session TTL in seconds>,
+  // db: 0,
+  // pass: <redis auth password>
+  // prefix: 'sess:'
 
 
   // Uncomment the following lines to use your Mongo adapter as a session store
