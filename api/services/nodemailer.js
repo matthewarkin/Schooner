@@ -15,8 +15,8 @@ module.exports = {
       secureConnection: false, // use SSL
       port: 587, // port for secure SMTP
       auth: {
-          user: "jdcauley",
-          pass: "s5B6xbLv9EnpZjo0L3tP9g"
+          user: "",
+          pass: ""
       }
     });
 

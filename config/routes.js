@@ -27,7 +27,24 @@ module.exports.routes = {
   //
   // (Alternatively, remove this and add an `index.html` file in your `assets` directory)
   '/': {
-    view: 'homepage'
+    controller: 'user',
+    action: 'index'
+  },
+  '/out':{
+    controller: 'home',
+    action: 'out'
+  },
+  '/reset':{
+    controller: 'home',
+    action: 'reset'
+  },
+  '/success':{
+    controller: 'home',
+    action: 'success'
+  },
+  '/user': {
+    controller: 'user',
+    action: 'index'
   },
   '/login': {
     controller: 'auth',
@@ -45,7 +62,12 @@ module.exports.routes = {
   'get /user/:id/activate/:token': {
     controller: 'UserController',
     action: 'activate'
+  },
+  'post /user/resetpass': {
+    controller: 'UserController',
+    action: 'resetpass'
   }
+
 
   // Custom routes here...
 

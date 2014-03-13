@@ -4,14 +4,45 @@
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
+var Puid = require('puid');
 
 module.exports = {
-
+  /*
   index: function(req, res){
-     console.log(req.user);
-        res.view({
-            user: req.user
-        });
+    console.log(req.user);
+    User.findOne(req.user.id).populate('files').exec(function( err, fileuser){
+
+      console.log(err);
+      console.log(fileuser);
+      res.view({
+        user : fileuser
+      });
+
+    });
+
+  },
+  */
+  index: function(req, res){
+
+      res.view({
+        user : req.user
+      });
+
+  },
+
+  update: function(req, res){
+
+  },
+
+  admin: function(req, res){
+    
+    User.find( function foundFiles(err, users) {
+      if (err) return next(err);
+      // pass the array down to the /views/index.ejs page
+      res.view({
+        users: users
+      });
+    });
   },
 
   create: function(req, res){
@@ -30,11 +61,11 @@ module.exports = {
             }, function(err, response){
               sails.log.debug('nodemailer sent', err, response);
             });
-            res.send(200, user);
+            res.redirect('/success');
 
           });
         }else{
-          res.send(200, user);
+          res.redirect('/success');
         }
       }
     });
@@ -63,9 +94,49 @@ module.exports = {
       // Updated users successfully!
       } else {
         sails.log.debug("User activated:", user);
-        res.send(200, user);
+        res.redirect('/');
       }
     });
 
-  }
-}
+  },
+  resetpass: function(req, res){
+    puid = new Puid(true);
+
+    var email = req.param('email'),
+        newPass = puid.generate();
+
+    User.findOneByEmail(email, function( err, user ){
+
+      crypto.generate({saltComplexity: 10}, newPass, function(err, hash){
+        if(err){
+          return cb(err);
+        }else{
+          var emailTemplate = res.render('email/reset.ejs', function(err){
+
+          nodemailer.send({
+            name:       user.firstName + ' ' + user.lastName,
+            from:       sails.config.nodemailer.from,
+            to:         email,
+            subject:    'Peices pass Reset',
+            messageHtml: 'Your new password for peices.co ' + newPass
+          }, function(err, response){
+            sails.log.debug('nodemailer sent', err, response);
+          });
+          res.redirect('/login');
+
+        });
+
+          newPass = hash;
+
+          User.update(
+            {password: user.password},
+            {password: newPass}
+          );
+
+          }
+        });
+      });
+    }
+
+
+};

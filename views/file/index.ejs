@@ -1,0 +1,36 @@
+<section class="container home">
+  <div class="row">
+    <div class="col-sm-12">
+    
+      <table class="table">
+
+        <tr>
+			    <th>User</th>
+			    <th>File ID</th>
+			    <th>File URL</th>
+			    <th>File Path</th>
+			    <th>Delete</th>
+		    </tr>
+
+        <% _.each(files, function (file) { %>
+        <tr data-id="<%= file.id %>" data-model="file">
+	      <td><%= file.user %></td>
+		  <td><%= file.id %></td>
+		  <td><a href="<%= file.url %>" target="_blank"><%= file.url %></a></td>
+		  <td><%= file.filepath %></td>
+		  <td>
+            <form action="/file/destroy/" method="POST">
+              <input type="hidden" name="id" value="<%= file.id %>"/>
+                  <input type="hidden" name="filepath" value="<%= file.filepath %>"/>
+                  <input type="hidden" name="_method" value="delete"/>
+				  <input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
+				  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			    </form>
+              </td>
+		    </tr>
+		    <% }) %>
+      </table>
+
+    </div>
+  </div>
+</div>

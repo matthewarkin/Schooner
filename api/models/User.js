@@ -33,7 +33,6 @@ module.exports = {
     activationToken: {
       type: 'string'
     },
-
     /**
      * Strips the password out of the json
      * object before its returned from waterline.
@@ -43,7 +42,7 @@ module.exports = {
       // this gives you an object with the current values
       var obj = this.toObject();
       delete obj.password;
-      
+
       delete obj.activationToken;
       delete obj.activated;
       // return the new object without password
@@ -63,7 +62,7 @@ module.exports = {
    * @param  {object}   user            the object of the submitted user data
    * @param  {Function} cb[err, user]   the callback to be used when bcrypts done
    */
-  beforeCreate: function(user, cb) {  
+  beforeCreate: function(user, cb) {
     crypto.generate({saltComplexity: 10}, user.password, function(err, hash){
       if(err){
         return cb(err);
