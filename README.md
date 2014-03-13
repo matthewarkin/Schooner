@@ -1,4 +1,4 @@
-# [Sails](http://sailsjs.org) v0.10 Boilerplate
+# [Sails.js](http://sailsjs.org) v0.10 Boilerplate
 
 The Orginial foundation by @mikedevita [sailsjs v010 passport-local mongo email activation](https://github.com/mikedevita/sailsjs-v010-passport-local-mongo-email-activation)
 
