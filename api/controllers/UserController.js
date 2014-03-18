@@ -35,7 +35,7 @@ module.exports = {
   },
 
   admin: function(req, res){
-    
+
     User.find( function foundFiles(err, users) {
       if (err) return next(err);
       // pass the array down to the /views/index.ejs page
@@ -106,7 +106,8 @@ module.exports = {
         newPass = puid.generate();
 
     User.findOneByEmail(email, function( err, user ){
-
+      console.log(user);
+      console.log(newPass);
       crypto.generate({saltComplexity: 10}, newPass, function(err, hash){
         if(err){
           return cb(err);
@@ -125,14 +126,17 @@ module.exports = {
           res.redirect('/login');
 
         });
-
+        console.log(user.firstName + user.lastName);
+        console.log(user.email);
+        console.log('original user pass '+ user.password);
           newPass = hash;
-
+        console.log('hashed pass: '+ newPass);
+        // console.log(hash);
           User.update(
-            {password: user.password},
-            {password: newPass}
-          );
-
+            {password: user.password}, {password: newPass}
+          ).exec(function updateCB(err,updated){
+            console.log('Updated user to have pass ' + newPass);
+          });
           }
         });
       });
