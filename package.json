@@ -29,7 +29,7 @@
     "mime": "^1.2.11",
     "puid": "^0.5.2",
     "knox": "^0.8.9",
-    "sails-mongo": "^0.9.7"
+    "sails-mongo": "~0.10.0"
   },
   "scripts": {
     "start": "node app.js",
