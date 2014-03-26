@@ -11,9 +11,6 @@ module.exports = {
     /** sets up the modemailer smtp transport */
     var transport = nodemailer.createTransport("SMTP", {
       service: "Mandrill",
-      host: "smtp.mandrillapp.com",
-      secureConnection: false, // use SSL
-      port: 587, // port for secure SMTP
       auth: {
           user: "",
           pass: ""

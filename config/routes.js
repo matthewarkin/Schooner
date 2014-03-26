@@ -50,6 +50,10 @@ module.exports.routes = {
     controller: 'auth',
     action: 'index'
   },
+  '/user/profile': {
+    controller: 'user',
+    action: 'profile'
+  },
   'post /login': {
     controller: 'AuthController',
     action: 'login'
@@ -66,6 +70,14 @@ module.exports.routes = {
   'post /user/resetpass': {
     controller: 'UserController',
     action: 'resetpass'
+  },
+  'post /user/updatePass/:id': {
+    controller: 'UserController',
+    action: 'updatePass'
+  },
+  'post /user/update/:id': {
+    controller: 'UserController',
+    action: 'update'
   }
 
 

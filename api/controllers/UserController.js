@@ -30,10 +30,111 @@ module.exports = {
 
   },
 
-  update: function(req, res){
+  profile: function(req, res){
+
+      res.view({
+        user : req.user
+      });
 
   },
 
+  update: function(req, res, next){
+
+    var params = req.params.all();
+
+    crypto.generate({saltComplexity: 10}, params.password, function(err, hash){
+      if (err) console.log(err);
+
+      params.password = hash;
+      newPass = params.password;
+      console.log('hashed pass: '+ params.password);
+      // console.log(hash);
+
+
+      User.findOne(req.user, function(err, user){
+
+
+
+          console.log('firstname: ' + user.firstName + ', ' + 'lastname: ' + user.lastName + ', ' + 'pass: ' + user.password);
+          console.log('-----------');
+          console.log('firstname: ' + params.firstName + ', ' + 'lastname: ' + params.lastName + ', ' + 'pass: ' + params.password);
+
+
+          User.update(user.id, params).exec(function updateCB(err, updated){
+            console.log('Updated user to have pass');
+            res.redirect('/user/profile');
+          });
+
+      });
+
+    });
+
+  },
+
+  updatePass: function(req,res,next){
+
+    var params = req.params.all();
+
+    crypto.generate({saltComplexity: 10}, params.password, function(err, hash){
+      if (err) console.log(err);
+
+      params.password = hash;
+      newPass = params.password;
+      console.log('hashed pass: '+ params.password);
+      // console.log(hash);
+
+      User.findOne(req.user, function(err, user){
+
+          User.update({password: user.password}, {password: params.password}).exec(function updateCB(err, updated){
+            console.log('Updated user to have pass');
+            res.redirect('/user/profile');
+          });
+
+      });
+
+    });
+
+  },
+    /*
+    puid = new Puid(true);
+
+    var params = req.params.all(),
+        user = req.user;
+
+    User.findOne(user, function( err, user ){
+      console.log(user.firstName);
+      console.log(user.password);
+
+      crypto.generate({saltComplexity: 10}, params.password, function(err, hash){
+        if (err) console.log(err);
+
+        console.log(user.firstName + ' ' + user.lastName + ' ' + params.firstName + ' ' + params.lastName);
+        console.log(user.email + ' ' + params.email);
+        console.log('original user pass '+ user.password);
+
+        params.password = hash;
+
+        var newPass = hash;
+
+        console.log('hashed pass: '+ params.password);
+        // console.log(hash);
+        });
+
+        User.update(
+          {firstName: user.firstName},
+          {firstName: params.firstName},
+          {lastName: user.lastName},
+          {lastName: params.lastName},
+          {password: user.password},
+          {password: params.password}
+        ).exec(function updateCB(err,updated){
+          console.log('Updated user to have pass ' + params.password);
+        });
+
+        res.redirect('/user/profile');
+    });
+  },
+  */
   admin: function(req, res){
 
     User.find( function foundFiles(err, users) {
