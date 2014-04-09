@@ -27,58 +27,67 @@ module.exports.routes = {
   //
   // (Alternatively, remove this and add an `index.html` file in your `assets` directory)
   '/': {
-    controller: 'user',
-    action: 'index'
+    view: 'home'
   },
-  '/out':{
-    controller: 'home',
-    action: 'out'
+  '/out': {
+    view: 'out'
   },
-  '/reset':{
-    controller: 'home',
-    action: 'reset'
+  '/signup': {
+    view: 'account/signup'
+  },
+  '/forgot':{
+    view: '/public/forgot'
   },
   '/success':{
-    controller: 'home',
-    action: 'success'
-  },
-  '/user': {
-    controller: 'user',
-    action: 'index'
+    view: '/public/success'
   },
   '/login': {
-    controller: 'auth',
+    controller: 'AccountController',
+    action: 'index'
+  },
+  '/user': {
+    controller: 'UserController',
     action: 'index'
   },
   '/user/profile': {
     controller: 'user',
     action: 'profile'
   },
-  'post /login': {
+  'post /account/login': {
     controller: 'AuthController',
     action: 'login'
   },
   'get /logout': {
-    controller: 'AuthController',
+    controller: 'AccountController',
     action: 'logout'
   },
+
   /** Create the route to handle user activations */
   'get /user/:id/activate/:token': {
     controller: 'UserController',
     action: 'activate'
   },
-  'post /user/resetpass': {
+  'post /passreset': {
     controller: 'UserController',
-    action: 'resetpass'
+    action: 'resetPass'
   },
-  'post /user/updatePass/:id': {
+  'post /user/passupdate/:id': {
     controller: 'UserController',
     action: 'updatePass'
   },
   'post /user/update/:id': {
     controller: 'UserController',
-    action: 'update'
+    action: 'updateUser'
+  },
+  'post /mail/create': {
+    controller: 'MailController',
+    action: 'create'
+  },
+  'post /members/create': {
+    controller: 'MembersController',
+    action: 'create'
   }
+
 
 
   // Custom routes here...

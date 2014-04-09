@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <form id="signup-form" action="/user/postSignup" method="post">
+
+
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <div class="form-group">
+          <input id="email" name="email" class="form-control" type="email" placeholder="Email" autofocus>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+        </div>
+        <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
