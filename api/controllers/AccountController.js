@@ -20,12 +20,12 @@ module.exports = {
 
       req.logIn(user, function(err){
         if (err) res.send(err);
-        console.log('login success');
         return res.redirect('/user/'); //res.send({ message: 'login successful' });
+        console.log('login success');
       });
     })(req, res);
   },
-  
+
   logout: function (req,res){
     req.logout();
     res.redirect('/out');
