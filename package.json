@@ -30,7 +30,9 @@
     "nodemailer": "^0.6.1",
     "bcrypt": "^0.7.7",
     "express-validator": "^2.1.1",
-    "puid": "^0.5.2"
+    "puid": "^0.5.2",
+    "mime": "^1.2.11",
+    "knox": "^0.8.9"
   },
   "scripts": {
     "start": "node app.js",
