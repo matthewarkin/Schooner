@@ -66,7 +66,7 @@ module.exports = {
     },
 
 	},
-  
+
   beforeCreate: function(user, cb) {
 
     if (!user.password || user.password != user.confirmPassword) {
@@ -78,6 +78,7 @@ module.exports = {
           return cb(err);
         }else{
           user.password = hash;
+          user.confirmPassword = hash;
           user.activated = false; //make sure nobody is creating a user with activate set to true, this is probably just for paranoia sake
           user.activationToken = crypto.token(new Date().getTime()+user.email);
           return cb(null, user);

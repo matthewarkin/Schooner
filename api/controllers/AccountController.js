@@ -19,9 +19,14 @@ module.exports = {
       if ((err) || (!user)) console.log(err);
 
       req.logIn(user, function(err){
-        if (err) res.send(err);
-        return res.redirect('/user/'); //res.send({ message: 'login successful' });
-        console.log('login success');
+        if (err) {
+          console.log(err);
+          res.redirect('/login');
+        } else {
+          console.log('login success');
+          return res.redirect('/user/'); //res.send({ message: 'login successful' });
+
+        }
       });
     })(req, res);
   },

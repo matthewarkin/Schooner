@@ -2,7 +2,7 @@ module.exports = {
 
   localAuth: true,
   mail: {
-    from: process.env.MAIL_FROM || 'Mail From Address',
+    from: process.env.MAIL_FROM || 'Your Name <your@email.com>',
   },
 
   mandrill: {
@@ -12,12 +12,12 @@ module.exports = {
 
   mailgun: {
     login: process.env.MAILGUN_LOGIN || 'Your Mailgun Username',
-    password: process.env.MAILGUN_PASSWORD || 'Your Mailgun Pass'
+    password: process.env.MAILGUN_PASSWORD || 'Your Mailgun Username'
   },
 
   sendgrid: {
     user: process.env.SENDGRID_USER || 'Your SendGrid Username',
-    password: process.env.SENDGRID_PASSWORD || 'Your SendGrid Pass'
+    password: process.env.SENDGRID_PASSWORD || 'Your SendGrid Username'
   },
 
   nyt: {

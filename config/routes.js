@@ -54,7 +54,7 @@ module.exports.routes = {
     action: 'profile'
   },
   'post /account/login': {
-    controller: 'AuthController',
+    controller: 'AccountController',
     action: 'login'
   },
   'get /logout': {
