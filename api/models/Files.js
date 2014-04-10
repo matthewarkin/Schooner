@@ -17,8 +17,11 @@ module.exports = {
     },
     user: {
       model: 'user'
-    }
-
+    },
+    projectcover: {
+      type: 'boolean',
+      defaultsTo: false
+    },
 	}
 
 };

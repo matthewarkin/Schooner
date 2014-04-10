@@ -13,20 +13,17 @@ module.exports = {
   },
 
   login: function(req, res){
-    console.log('logging in');
     passport.authenticate('local',
     function(err, user, info){
       if ((err) || (!user)) console.log(err);
 
       req.logIn(user, function(err){
         if (err) {
-          console.log(err);
-          res.redirect('/login');
+          res.send(err);
         } else {
-          console.log('login success');
-          return res.redirect('/user/'); //res.send({ message: 'login successful' });
-
+          return res.redirect('/projects/'); //res.send({ message: 'login successful' });
         }
+
       });
     })(req, res);
   },

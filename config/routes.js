@@ -57,6 +57,10 @@ module.exports.routes = {
     controller: 'AccountController',
     action: 'login'
   },
+  'post /user/postSignup': {
+    controller: 'UserController',
+    action: 'postSignup'
+  },
   'get /logout': {
     controller: 'AccountController',
     action: 'logout'

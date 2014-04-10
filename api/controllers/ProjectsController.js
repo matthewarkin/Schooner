@@ -4,6 +4,8 @@
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
+ var fs = require('fs'),
+     mime = require('mime');
 
 module.exports = {
 
@@ -13,10 +15,12 @@ module.exports = {
 
   index: function(req, res){
 
+    console.log(req.user.id);
+
     User.findOneById(req.user.id).exec(function( err, user){
       console.log(user.id + ', ' + user.username );
 
-      Project.findByUser(user.id).populate('files').exec(function( err, userprojects ){
+      Projects.find(user.id).populate('files').exec(function( err, userprojects ){
         if (err){
           console.log(err);
         } else {
@@ -36,28 +40,28 @@ module.exports = {
   create: function(req, res, next){
 
     var params = req.params.all();
+    var file = req.files.file;
 
     Projects.create({
-      user: params.userid,
-      project: params.project,
+
+      user: file.userid,
+      project: params.projectname,
       description: params.description,
-      file: req.files.file;
+      files: file.id
+
     }).done(function projectCreated(err, project){
-      console.log('id: ' + project.user);
+      console.log('projectid: ' + project.id)
       filemanager.upload({
 
-      }, function(err, response){
-        sails.log.debug('nodemailer sent', err, response);
+        userid: params.userid,
+        file: file,
+        stream: fs.createReadStream(file.path),
+        mimetype: mime.lookup(file.name),
+        project: project.id,
+        cover: true
+
       });
-
-      filemanager.upload(params);
-
-      if (err) {
-        console.log(err);
-      }
-
-    res.redirect('/project');
-
+    res.redirect('/projects/' + project.id);
     });
 
 

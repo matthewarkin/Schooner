@@ -24,13 +24,13 @@ module.exports.policies = {
     '*': true
   },
   'user':{
-    'create': true,
+    'postSignup': true,
     'activate': true,
     'resetpass': true,
     '*': 'authenticated'
   },
-  'group':{
-    '*': true
+  'projects':{
+    '*': 'authenticated'
   },
   'mail':{
     '*': true

@@ -11,26 +11,21 @@ var knox = require('knox').createClient({
 
 module.exports = {
 
-upload: function(req, res, next) {
+upload: function(params, cb) {
 
   puid = new Puid(true);
 
-  var params = params,
-      userid = params.userid;
-      file = req.files.file;
-      stream = fs.createReadStream(file.path),
-      mimetype = mime.lookup(file.name),
-      baseurl = 'http://s3.amazonaws.com/' + secrets.aws.bucket,
-      filepath = userid + '/' + puid.generate() + '.' + file.name,
+  var baseurl = 'http://s3.amazonaws.com/' + secrets.aws.bucket,
+      filepath = params.userid + '/' + puid.generate() + '.' + params.file.name,
       fileurl = baseurl + '/' + filepath;
       console.log(fileurl)
 
-  knox.putStream(stream, filepath,
+  knox.putStream(params.stream, filepath,
     {
-      'Content-Type': mimetype,
+      'Content-Type': params.mimetype,
       'Cache-Control': 'max-age=604800',
       'x-amz-acl': 'public-read',
-      'Content-Length': file.size
+      'Content-Length': params.file.size
     },
 
     function(err, result) {
@@ -39,14 +34,21 @@ upload: function(req, res, next) {
         res.json({ Error: '500' });
       } else {
         // console.log(result);
+          console.log('in file create, projectid' + params.project );
+        Files.create({
 
-        File.create({ user: userid, name : fail.name, url: fileurl, filepath : filepath }).done(function fileCreated(err, file){
+          user: params.userid,
+          projects: params.project,
+          name : params.file.name,
+          url: fileurl,
+          filepath : filepath,
+          projectcover: params.cover
+          
+        }).done(function fileCreated(err, file){
 
           if (err) {
             console.log(err);
           }
-
-          res.redirect('/user/');
 
         });
       }

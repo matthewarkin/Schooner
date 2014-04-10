@@ -11,11 +11,14 @@ module.exports = {
 
     projectname: 'string',
     description: 'string',
+    cover: 'string',
     files: {
       collection: 'files',
       via: 'projects'
     },
-    user: 'string'
+    user: {
+      model: 'user'
+    }
 
 	}
 
