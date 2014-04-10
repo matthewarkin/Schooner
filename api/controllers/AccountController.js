@@ -20,8 +20,9 @@ module.exports = {
       req.logIn(user, function(err){
         if (err) {
           res.send(err);
+          res.redirect('/login');
         } else {
-          return res.redirect('/projects/'); //res.send({ message: 'login successful' });
+          return res.redirect('/projects'); //res.send({ message: 'login successful' });
         }
 
       });
