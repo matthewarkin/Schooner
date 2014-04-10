@@ -18,6 +18,7 @@ module.exports = {
       user : req.user
     });
   },
+  
   postSignup: function(req, res){
     var params = req.params.all();
     puid = new Puid(true);
