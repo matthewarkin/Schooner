@@ -13,13 +13,11 @@
 
 module.exports = {
 
-  /*
   index: function(req, res){
     res.view({
       user : req.user
     });
   },
-  */
   postSignup: function(req, res){
     var params = req.params.all();
     puid = new Puid(true);
@@ -35,8 +33,6 @@ module.exports = {
         console.log(err);
         res.json({ Error: '500' });
       } else {
-        console.log('<h3>Thanks for signing up</h3><p><a href="http://localhost:1337/user/' + user.id + '/activate/' + user.activationToken);
-        console.log(user.email + ', ' + user.password + ', userid: ' + user.id);
         nodemailer.send({
           from:       'jordan@cauley.co',
           to:         user.email,

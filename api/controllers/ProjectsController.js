@@ -20,12 +20,7 @@ module.exports = {
     User.findOneById(req.user.id).exec(function( err, user){
       console.log(user.id + ', ' + user.username );
 
-      Projects.find(user.id).populate('files').exec(function( err, userprojects ){
-        if (err){
-          console.log(err);
-        } else {
-          console.log('Success!');
-        }
+      Projects.find({user: user.id}).populate('files').exec(function( err, userprojects ){
 
         res.view({
           data : {
@@ -41,16 +36,16 @@ module.exports = {
 
     var params = req.params.all();
     var file = req.files.file;
-
+      console.log('userid: ' + params.userid);
     Projects.create({
 
-      user: file.userid,
       project: params.projectname,
       description: params.description,
+      user: params.userid,
       files: file.id
 
     }).done(function projectCreated(err, project){
-      console.log('projectid: ' + project.id)
+      console.log('projectid: ' + project.id + ', userid: ' + project.user);
       filemanager.upload({
 
         userid: params.userid,

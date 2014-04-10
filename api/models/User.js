@@ -76,17 +76,14 @@ module.exports = {
 	},
 
   beforeCreate: function(user, cb) {
-    console.log('hit before create');
     if (!user.password || user.password != user.confirmPassword) {
-      console.log('comparison fail');
+      console.log('comparison fail'); // replace with flash message
     } else {
-      console.log('pre-crypto generate');
       crypto.generate({saltComplexity: 10}, user.password, function(err, hash){
         if(err){
           return cb(err);
-          console.log('failed generation');
+          // needs flash message
         }else{
-            console.log('successful generation');
           user.password = hash;
           user.confirmPassword = hash;
           user.activated = false; //make sure nobody is creating a user with activate set to true, this is probably just for paranoia sake
