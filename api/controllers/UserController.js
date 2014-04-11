@@ -23,8 +23,16 @@ module.exports = {
     var params = req.params.all();
     puid = new Puid(true);
 
-    User.findOneByEmail(params.email, function( noUser, userExists ){
-      if(noUser){
+    User.findOneByEmail(params.email).exec(function (err, userExists){
+      if(userExists){
+
+        req.flash("message", '<div class="alert alert-danger">User Exists - Do you need to Reset your Password?</div>');
+
+        res.cookie("message", {message: "User Exists", type: "error", options: {}});
+        res.redirect("/login");
+        return;
+
+      } else {
 
         User.create({
           username: params.email,
@@ -55,13 +63,6 @@ module.exports = {
             res.redirect("/");
           }
         });
-
-      } else {
-        req.flash("message", '<div class="alert alert-danger">User Exists - Do you need to Reset your Password?</div>');
-
-        res.cookie("message", {message: "User Exists", type: "error", options: {}});
-        res.redirect("/login");
-        return;
       }
 
     });
