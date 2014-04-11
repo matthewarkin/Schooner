@@ -23,7 +23,7 @@ module.exports = {
     var params = req.params.all();
     puid = new Puid(true);
 
-    User.findOneByEmail(params.email).exec(function (err, userExists){
+    User.findOneByEmail(params.email, function (err, userExists){
       if(userExists){
 
         req.flash("message", '<div class="alert alert-danger">User Exists - Do you need to Reset your Password?</div>');
@@ -57,7 +57,7 @@ module.exports = {
             }, function(err, response){
               sails.log.debug('nodemailer sent', err, response);
             });
-            req.flash("message", '<div class="alert alert-danger">Plese Check Your Email</div>');
+            req.flash("message", '<div class="alert alert-success">Plese Check Your Email</div>');
 
             res.cookie("message", {message: "Something went wrong", type: "error", options: {}});
             res.redirect("/");
