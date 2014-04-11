@@ -16,7 +16,11 @@ module.exports = {
     passport.authenticate('local',
     function(err, user, info){
       if ((err) || (!user)) {
-         req.flash("message", 'Invalid Credentials');
+        req.flash("message", '<div class="alert alert-danger">Invalid Credentials</div>');
+
+        res.cookie("message", {message: "Invalid credentials", type: "error", options: {}});
+        res.redirect("/login");
+        return;
       }
 
       req.logIn(user, function(err){

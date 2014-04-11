@@ -18,34 +18,54 @@ module.exports = {
       user : req.user
     });
   },
-  
+
   postSignup: function(req, res){
     var params = req.params.all();
     puid = new Puid(true);
 
-    User.create({
-      username: params.email,
-      email: params.email,
-      password: params.password,
-      confirmPassword: params.confirmPassword
-    }).done(function userCreated(err, user){
+    User.findOneByEmail(params.email, function( noUser, userExists ){
+      if(noUser){
 
-      if (err) {
-        console.log(err);
-        res.json({ Error: '500' });
-      } else {
-        nodemailer.send({
-          from:       'jordan@cauley.co',
-          to:         user.email,
-          replyTo:    secrets.mail.from,
-          subject:    'New Account Acivation Required',
-          html:       '<h3>Thanks for signing up</h3><p><a href="http://localhost:1337/user/' + user.id + '/activate/' + user.activationToken + '">Please Activate Your Account</a></p>'
-        }, function(err, response){
-          sails.log.debug('nodemailer sent', err, response);
+        User.create({
+          username: params.email,
+          email: params.email,
+          password: params.password,
+          confirmPassword: params.confirmPassword
+        }).done(function userCreated(err, user){
+
+          if (err) {
+            req.flash("message", '<div class="alert alert-danger">Something went wrong</div>');
+
+            res.cookie("message", {message: "Something went wrong", type: "error", options: {}});
+            res.redirect("/login");
+            return;
+          } else {
+            nodemailer.send({
+              from:       'jordan@cauley.co',
+              to:         user.email,
+              replyTo:    secrets.mail.from,
+              subject:    'New Account Acivation Required',
+              html:       '<h3>Thanks for signing up</h3><p><a href="http://localhost:1337/user/' + user.id + '/activate/' + user.activationToken + '">Please Activate Your Account</a></p>'
+            }, function(err, response){
+              sails.log.debug('nodemailer sent', err, response);
+            });
+            req.flash("message", '<div class="alert alert-danger">Plese Check Your Email</div>');
+
+            res.cookie("message", {message: "Something went wrong", type: "error", options: {}});
+            res.redirect("/");
+          }
         });
-        res.redirect('/');
+
+      } else {
+        req.flash("message", '<div class="alert alert-danger">User Exists - Do you need to Reset your Password?</div>');
+
+        res.cookie("message", {message: "User Exists", type: "error", options: {}});
+        res.redirect("/login");
+        return;
       }
+
     });
+
   },
 
   activate: function(req, res){
