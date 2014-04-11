@@ -32,6 +32,22 @@
     <link rel="stylesheet" href="/styles/lib/animate.css">
     <link rel="stylesheet" href="/styles/lib/font-awesome.min.css">
     <!--STYLES END-->
+
+    <script type="text/javascript">
+      <% if (typeof currentUser !== 'undefined') { %>
+        var userObject = <%- JSON.stringify(currentUser) %>;
+        var loggedUserId = <%= currentUser.id %>;
+    <% } %>
+
+    <% if (typeof projectId !== 'undefined' && typeof sprintId !== 'undefined') { %>
+      var selectedProjectId = <%= projectId %>;
+      var selectedSprintId = <%= sprintId %>;
+    <% } %>
+
+    <% if (typeof flashMessages !== 'undefined') { %>
+      var messages = <%- JSON.stringify(flashMessages) %>;
+    <% } %>
+  </script>
   </head>
 
   <body>
@@ -126,6 +142,7 @@
     <script src="/js/socket.io.js"></script>
     <script src="/js/sails.io.js"></script>
     <script src="/js/connection.example.js"></script>
+    <script src="/js/board.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

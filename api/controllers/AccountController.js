@@ -15,14 +15,16 @@ module.exports = {
   login: function(req, res){
     passport.authenticate('local',
     function(err, user, info){
-      if ((err) || (!user)) console.log(err);
+      if ((err) || (!user)) {
+         req.flash("message", 'Invalid Credentials');
+      }
 
       req.logIn(user, function(err){
         if (err) {
           res.send(err);
           res.redirect('/login');
         } else {
-          return res.redirect('/projects'); 
+          return res.redirect('/projects');
         }
 
       });
