@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="/user/resetPass" method="post">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <div class="form-group">
+          <input class="form-control" type="text" name="email" placeholder="Your email?">
+        </div>
+        <input class="btn btn-success" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</div>
