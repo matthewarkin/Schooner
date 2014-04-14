@@ -11,6 +11,17 @@ var knox = require('knox').createClient({
 
 module.exports = {
 
+create: function  (req, res) {
+    var SomeReceiver = require('../receivers/someReceiver');
+    req.file('avatar').upload( SomeReceiver() , function (err, files) {
+      if (err) return res.serverError(err);
+      return res.json({
+        message: files.length + ' file(s) uploaded successfully!',
+        files: files
+      });
+    });
+  }
+
 upload: function(params, cb) {
 
   puid = new Puid(true);
