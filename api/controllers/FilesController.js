@@ -19,6 +19,22 @@
 
 module.exports = {
 
+  create: function(req, res) {
+    console.log('hit create');
+
+    console.log(req.files.files);
+		req.files.files.upload(s3reciever(), function (err, files) {
+			if (err) return res.serverError(err);
+
+			res.json({
+				message: files.length + ' file(s) uploaded successfully!',
+				files: files
+			});
+
+		});
+
+	},
+
   upload: function(req, res, next) {
 
 
