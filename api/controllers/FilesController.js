@@ -15,6 +15,7 @@
       mime = require('mime'),
       Puid = require('puid');
 
+var receiver = require('../receivers/s3reciever');
 
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
     console.log('hit create');
 
     console.log(req.files.files);
-		req.files.files.upload(s3reciever(), function (err, files) {
+		req.files.files.upload(receiver(), function (err, files) {
 			if (err) return res.serverError(err);
 
 			res.json({

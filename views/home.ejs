@@ -3,7 +3,11 @@
     <div class="col-lg-12">
       <h1>Bootstrap starter template</h1>
       <h3>Use this document as a way to quickly start any new project.</h3>
-    
+      <form action="/files/create" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <input type="file" name="files" value="" multiple="multiple">
+        <input class="btn btn-primary" type="submit" value="submit">
+      </form>
     </div>
   </div>
 </div>

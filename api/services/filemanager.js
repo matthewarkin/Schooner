@@ -20,7 +20,7 @@ create: function  (req, res) {
         files: files
       });
     });
-  }
+  },
 
 upload: function(params, cb) {
 
