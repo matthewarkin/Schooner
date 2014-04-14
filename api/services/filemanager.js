@@ -43,7 +43,7 @@ upload: function(params, cb) {
           url: fileurl,
           filepath : filepath,
           projectcover: params.cover
-          
+
         }).done(function fileCreated(err, file){
 
           if (err) {

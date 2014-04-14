@@ -32,7 +32,12 @@
     "express-validator": "^2.1.1",
     "puid": "^0.5.2",
     "mime": "^1.2.11",
-    "knox": "^0.8.9"
+    "knox": "^0.8.9",
+    "skipper": "^0.1.2",
+    "node-uuid": "^1.4.1",
+    "fs-extra": "^0.8.1",
+    "knox-mpu": "^0.1.6",
+    "stream": "0.0.1"
   },
   "scripts": {
     "start": "node app.js",

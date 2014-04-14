@@ -21,7 +21,6 @@ module.exports = {
 
   postSignup: function(req, res){
     var params = req.params.all();
-    puid = new Puid(true);
 
     User.findOneByEmail(params.email, function (err, userExists){
       if(userExists){
@@ -95,32 +94,54 @@ module.exports = {
   resetPass: function(req, res){
 
     puid = new Puid(true);
-    var email = req.param('email'),
-        newPass = puid.generate();
 
-    User.findOneByEmail(email, function( err, user ){
-      crypto.generate({saltComplexity: 10}, newPass, function(err, hash){
-        if(err){
-          return cb(err);
-        }else{
-          nodemailer.send({
-            from:       'jordan@cauley.co',
-            to:         user.email,
-            replyTo:    secrets.mail.from,
-            subject:    'Your Password Reset',
-            html:       'Your new password for peices.co ' + newPass
-          }, function(err, response){
-            sails.log.debug('nodemailer sent', err, response);
-          });
-          newPass = hash;
-          User.update(
-            {password: user.password},
-            {password: newPass}
-          ).exec(function updateCB(err,updated){
-            console.log('Updated user to have pass ' + newPass);
-          });
-        }
-      });
+    var params = req.params.all();
+    var newPass = puid.generate();
+
+    User.findOneByEmail(params.email, function (err, userExists){
+
+      if(userExists){
+
+        crypto.generate({saltComplexity: 10}, newPass, function(err, hash){
+          if(err){
+
+            req.flash("message", '<div class="alert alert-danger">Opps, something went wrong, lets try again.</div>');
+
+            res.cookie("message", {message: "Not a User", type: "error", options: {}});
+            res.redirect("/forgot");
+            return;
+
+          }else{
+            
+            nodemailer.send({
+              from:       'jordan@cauley.co',
+              to:         user.email,
+              replyTo:    secrets.mail.from,
+              subject:    'Your Password Reset',
+              html:       'Your new password for peices.co ' + newPass
+            }, function(err, response){
+              sails.log.debug('nodemailer sent', err, response);
+            });
+            newPass = hash;
+            User.update(
+              {password: user.password},
+              {password: newPass}
+            ).exec(function updateCB(err,updated){
+              console.log('Updated user to have pass ' + newPass);
+            });
+          }
+        });
+
+      } else {
+
+        req.flash("message", '<div class="alert alert-danger">Sorry, no account for that address</div>');
+
+        res.cookie("message", {message: "Not a User", type: "error", options: {}});
+        res.redirect("/forgot");
+        return;
+
+      }
+
     });
   },
 

@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'account/signup'
   },
   '/forgot':{
-    view: '/public/forgot'
+    view: 'forgot'
   },
   '/success':{
     view: '/public/success'
@@ -49,10 +49,6 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'index'
   },
-  '/user/profile': {
-    controller: 'user',
-    action: 'profile'
-  },
   'post /account/login': {
     controller: 'AccountController',
     action: 'login'
@@ -60,6 +56,14 @@ module.exports.routes = {
   'post /user/postSignup': {
     controller: 'UserController',
     action: 'postSignup'
+  },
+  'post /files/create': {
+    controller: 'FilesController',
+    action: 'create'
+  },
+  'post /files/upload': {
+    controller: 'FilesController',
+    action: 'upload'
   },
   'get /logout': {
     controller: 'AccountController',
@@ -71,7 +75,7 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'activate'
   },
-  'post /passreset': {
+  'post /user/resetPass': {
     controller: 'UserController',
     action: 'resetPass'
   },
@@ -83,15 +87,6 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'updateUser'
   },
-  'post /mail/create': {
-    controller: 'MailController',
-    action: 'create'
-  },
-  'post /members/create': {
-    controller: 'MembersController',
-    action: 'create'
-  }
-
 
 
   // Custom routes here...

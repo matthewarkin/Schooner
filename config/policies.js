@@ -26,18 +26,16 @@ module.exports.policies = {
   },
   'user':{
     'postSignup': true,
+    'reset': true,
     'activate': true,
-    'resetpass': true,
+    'resetPass': true,
     '*': 'authenticated'
   },
   'projects':{
     '*': 'authenticated'
   },
-  'mail':{
+  'files':{
     '*': true
-  },
-  'members':{
-	'*': true
   }
 
   /*
