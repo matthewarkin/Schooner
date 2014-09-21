@@ -41,6 +41,7 @@
 
 config/local.js
 api/services/secrets.js
+assets/dependencies
 
 
 

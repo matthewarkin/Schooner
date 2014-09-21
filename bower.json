@@ -1,0 +1,23 @@
+{
+  "name": "Schooner",
+  "version": "2.0.0",
+  "authors": [
+    "jdcauley <jordan@cauley.co>"
+  ],
+  "description": "App Boilerplate for Sails.js",
+  "keywords": [
+    "Sails.js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/dependencies",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}

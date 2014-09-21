@@ -2,8 +2,8 @@ var nodemailer = require('nodemailer');
 
 module.exports = {
 
-  send: function(email, cb){
-    console.log('passed to send');
+  send: function(userEmail, subject, messageBody, cb){
+    console.log('passed to send' + userEmail + ' ' + subject + ' ' + messageBody);
 
     var transporter = nodemailer.createTransport({
       service: secrets.mail.service,
@@ -12,6 +12,13 @@ module.exports = {
           pass: secrets.mail.pass
       }
     });
+
+    var email = {
+        from:       secrets.mail.fromName + ' <' + secrets.mail.fromEmail + '>',
+        to:         userEmail,
+        subject:    subject,
+        html:       messageBody
+      }
 
     transporter.sendMail(email, function(err, response){
       if(err){
