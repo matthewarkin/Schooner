@@ -1,10 +1,9 @@
 /**
-* User.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
-
+ * User.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs    :: http://sailsjs.org/#!documentation/models
+ */
 module.exports = {
   attributes: {
 
@@ -14,17 +13,26 @@ module.exports = {
     lastName: {
       type: 'string'
     },
-    email:{
-      type: 'email',
-      required: true,
+    username: {
+      type: 'string',
       unique: true
     },
+    email: {
+      type: 'string',
+      unique: true
+    },
+    /*
     username: {
       type: 'string',
       required: true,
       unique: true
     },
+    */
     password: {
+      type: 'string',
+      required: true
+    },
+    confirmPassword: {
       type: 'string',
       required: true
     },
@@ -44,6 +52,7 @@ module.exports = {
       // this gives you an object with the current values
       var obj = this.toObject();
       delete obj.password;
+      delete obj.confirmPassword;
 
       delete obj.activationToken;
       delete obj.activated;
@@ -65,15 +74,22 @@ module.exports = {
    * @param  {Function} cb[err, user]   the callback to be used when bcrypts done
    */
   beforeCreate: function(user, cb) {
-    crypto.generate({saltComplexity: 10}, user.password, function(err, hash){
-      if(err){
-        return cb(err);
-      }else{
-        user.password = hash;
-        user.activated = false; //make sure nobody is creating a user with activate set to true, this is probably just for paranoia sake
-        user.activationToken = crypto.token(new Date().getTime()+user.email);
-        return cb(null, user);
-      }
-    });
+      console.log('hit beforecreate');
+    if (!user.password || user.password != user.confirmPassword) {
+      console.log('comparison fail'); // replace with flash message
+    } else {
+      crypto.generate({saltComplexity: 10}, user.password, function(err, hash){
+        if(err){
+          return cb(err);
+          // needs flash message
+        }else{
+          user.password = hash;
+          user.confirmPassword = hash;
+          user.activated = false; //make sure nobody is creating a user with activate set to true, this is probably just for paranoia sake
+          user.activationToken = crypto.token(new Date().getTime()+user.email);
+          return cb(null, user);
+        }
+      });
+    }
   }
 };

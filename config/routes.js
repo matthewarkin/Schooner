@@ -34,7 +34,11 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+  'get /user/:id/activate/:token': {
+    controller: 'UserController',
+    action: 'activate'
+  },
 
   /***************************************************************************
   *                                                                          *
