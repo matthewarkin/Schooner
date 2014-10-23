@@ -43,6 +43,9 @@ module.exports = {
     activationToken: {
       type: 'string'
     },
+    resetToken: {
+      type: 'string'
+    },
     /**
      * Strips the password out of the json
      * object before its returned from waterline.
@@ -56,6 +59,8 @@ module.exports = {
 
       delete obj.activationToken;
       delete obj.activated;
+
+      delete obj.resetToken;
       // return the new object without password
       return obj;
     },

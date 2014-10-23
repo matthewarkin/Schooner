@@ -39,6 +39,16 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'activate'
   },
+  'get /auth/:id/reset/:resetToken': {
+    controller: 'AuthController',
+    action: 'reset'
+  },
+  /*
+  'password-reset': {
+    controller: 'AuthController',
+    action: 'resetView'
+  }
+  */
 
   /***************************************************************************
   *                                                                          *

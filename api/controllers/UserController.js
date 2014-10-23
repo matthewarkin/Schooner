@@ -86,13 +86,6 @@ module.exports = {
 
   },
 
-	reset: function(req, res){
-
-
-
-
-	},
-
 	update: function(req, res){
 
 		var params = req.params.all();
@@ -116,7 +109,5 @@ module.exports = {
 		}
 
 	}
-
-
 
 };

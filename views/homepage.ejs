@@ -18,7 +18,7 @@
         <div class="form-group">
           <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm that password">
         </div>
-        <button class="btn btn-signin btn-lg pull-right" type="submit">Get Started</button>
+        <button class="btn btn-default btn-signin btn-lg pull-right" type="submit">Get Started</button>
       </form>
     </div>
     <div class="col-sm-6">
@@ -29,8 +29,18 @@
         <div class="form-group">
           <input class="form-control" type="password" name="password" id="password" placeholder="Password">
         </div>
-        <button class="btn btn-signin pull-right" type="submit"><i class="fa fa-check"></i> Login</button>
-        <a class="forgot" href="/forgot">Forgot your password?</a>
+        <button class="btn btn-default btn-signin pull-right" type="submit"><i class="fa fa-check"></i> Login</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <form id="signup-form" action="/auth/forgot" method="post">
+        <div class="form-group">
+          <input id="reset-email" name="email" class="form-control" type="email" placeholder="Email" autofocus>
+        </div>
+
+        <button class="btn btn-default btn-signin pull-right" type="submit"><i class="fa fa-check"></i> submit</button>
       </form>
     </div>
   </div>

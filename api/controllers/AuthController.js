@@ -6,6 +6,7 @@
  */
 
 var passport = require('passport');
+
 module.exports = {
 
   index: function(req, res){
@@ -52,21 +53,92 @@ module.exports = {
   logout: function (req,res){
     req.logout();
     res.redirect('/out');
+  },
+
+  forgot: function(req, res){
+
+    var params = req.params.all();
+
+    User.findOneByEmail(params.email, function(err, theUser){
+
+      if(theUser){
+
+        var newResetToken = crypto.token(new Date().getTime()+theUser.email);
+        sails.log.debug(newResetToken);
+
+        User.update(theUser.id, {
+          resetToken: newResetToken
+        }, function(err, theUpdatedUser){
+          console.log(theUpdatedUser);
+
+          req.flash("message", '<div class="alert alert-success">Account reset Sent</div>');
+
+          res.cookie("message", {message: "Password reset sent", type: "error", options: {}});
+          res.redirect("/");
+
+        });
+
+      } else {
+        sails.log.debug('not a user');
+        req.flash("message", '<div class="alert alert-danger">No User Found</div>');
+
+        res.cookie("message", {message: "No User", type: "error", options: {}});
+        res.redirect("/");
+      }
+    })
+  },
+
+  reset: function(req, res){
+    var params = req.params.all();
+    console.log(params);
+
+    User.findOneById(params.id, function(err, theUser){
+      console.log(theUser)
+      if(theUser){
+
+        if(params.resetToken === theUser.resetToken){
+
+          res.view({
+            user : theUser
+          });
+
+        } else {
+
+          req.flash("message", '<div class="alert alert-danger">Nope</div>');
+
+          res.cookie("message", {message: "Nope", type: "error", options: {}});
+          res.redirect("/");
+
+        }
+
+      } else {
+
+        req.flash("message", '<div class="alert alert-danger">Nope</div>');
+
+        res.cookie("message", {message: "Nope", type: "error", options: {}});
+        res.redirect("/");
+
+      }
+    })
+
+  },
+
+  newpass: function(req, res){
+
+    var params = req.params.all();
+
+    User.update(params.uid, {
+      resetToken: '',
+      password: params.password,
+      confirmPassword: params.passwordconfirm
+    }, function(err, theUser){
+      console.log(theUser);
+      req.flash("message", '<div class="alert alert-success">Password Updated</div>');
+
+      res.cookie("message", {message: "Yep", type: "success", options: {}});
+      res.redirect("/");
+    });
+
   }
 
-  /*
-  login: function(req, res){
-    passport.authenticate('local', function(err, user, info) {
-      if (err) {
-        console.log(err);
-        return res.redirect('/login'); // will generate a 500 error
-      }
-    // Generate a JSON response reflecting authentication status
-      if (! user) {
-        return res.redirect('/login');
-      }
-      return res.redirect('/user/');
-    })(req, res);
-  },
-  */
 }
