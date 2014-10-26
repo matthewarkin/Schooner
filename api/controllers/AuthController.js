@@ -55,10 +55,6 @@ module.exports = {
     res.redirect('/out');
   },
 
-  tokenExpire: function(req, res){
-
-  }
-
   forgot: function(req, res){
 
     var params = req.params.all();
@@ -71,7 +67,8 @@ module.exports = {
         sails.log.debug(newResetToken);
 
         User.update(theUser.id, {
-          resetToken: newResetToken
+          resetToken: newResetToken,
+          resetTokenTime: Date.now()
         }, function(err, updatedUser){
           console.log(updatedUser);
           if(updatedUser){
@@ -80,7 +77,6 @@ module.exports = {
             mailer.send(updatedUser[0].email, 'Password Reset!', messageBody, function(err, response){
                 sails.log.debug('nodemailer sent', err, response);
             });
-
 
             req.flash("message", '<div class="alert alert-success">Account reset Sent</div>');
 
@@ -108,8 +104,9 @@ module.exports = {
     User.findOneById(params.id, function(err, theUser){
       console.log(theUser)
       if(theUser){
-
-        if(params.resetToken === theUser.resetToken){
+        console.log(theUser.resetTokenTime + 30*60000);
+        console.log(Date.now());
+        if(params.resetToken === theUser.resetToken && theUser.resetTokenTime + 30*60000 >= Date.now()){
 
           res.view({
             user : theUser
