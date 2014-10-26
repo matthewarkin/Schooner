@@ -55,6 +55,10 @@ module.exports = {
     res.redirect('/out');
   },
 
+  tokenExpire: function(req, res){
+
+  }
+
   forgot: function(req, res){
 
     var params = req.params.all();
@@ -68,13 +72,22 @@ module.exports = {
 
         User.update(theUser.id, {
           resetToken: newResetToken
-        }, function(err, theUpdatedUser){
-          console.log(theUpdatedUser);
+        }, function(err, updatedUser){
+          console.log(updatedUser);
+          if(updatedUser){
+            var messageBody = '<h3>Update your password</h3><p><a href="' + secrets.base.url + '/auth/' + updatedUser[0].id + '/reset/' + updatedUser[0].resetToken + '">Please click here to recover your password</a>.</p>'
 
-          req.flash("message", '<div class="alert alert-success">Account reset Sent</div>');
+            mailer.send(updatedUser[0].email, 'Password Reset!', messageBody, function(err, response){
+                sails.log.debug('nodemailer sent', err, response);
+            });
 
-          res.cookie("message", {message: "Password reset sent", type: "error", options: {}});
-          res.redirect("/");
+
+            req.flash("message", '<div class="alert alert-success">Account reset Sent</div>');
+
+            res.cookie("message", {message: "Password reset sent", type: "error", options: {}});
+            res.redirect("/");
+          }
+
 
         });
 
@@ -127,17 +140,36 @@ module.exports = {
 
     var params = req.params.all();
 
-    User.update(params.uid, {
-      resetToken: '',
-      password: params.password,
-      confirmPassword: params.passwordconfirm
-    }, function(err, theUser){
-      console.log(theUser);
-      req.flash("message", '<div class="alert alert-success">Password Updated</div>');
+    if (!params.password || params.password != params.passwordconfirm) {
+      req.flash("message", '<div class="alert alert-danger">Passw Word Mismatch</div>');
 
-      res.cookie("message", {message: "Yep", type: "success", options: {}});
+      res.cookie("message", {message: "Nope", type: "error", options: {}});
       res.redirect("/");
-    });
+    } else {
+      crypto.generate({saltComplexity: 10}, params.password, function(err, hash){
+        if(err){
+          return cb(err);
+          // needs flash message
+        }else{
+          params.password = hash;
+          params.passwordconfirm = hash;
+
+          User.update(params.uid, {
+            resetToken: '',
+            password: params.password,
+            confirmPassword: params.passwordconfirm
+          }, function(err, theUser){
+            console.log(theUser);
+            req.flash("message", '<div class="alert alert-success">Password Updated</div>');
+
+            res.cookie("message", {message: "Yep", type: "success", options: {}});
+            res.redirect("/");
+          });
+        }
+      });
+    }
+
+
 
   }
 
